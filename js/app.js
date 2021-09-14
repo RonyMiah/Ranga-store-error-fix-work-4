@@ -246,12 +246,39 @@ const showProducts = (products) => {
       <p class="text-dark ">Rating: ${product.rating.rate}  [ ** ${product.rating.count} reviews ]</p>
       <h2>Price: $ ${product.price}</h2>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-primary">Add to cart</button>  
-      <button id="details-btn"  class=" yellow-color  btn   rounded-1" >  Details   </button>
+
+      <button id="details-btn" data-bs-toggle="modal" data-bs-target="#modalButton${product.id}" class="btn yellow-color border-0 rounded-1">  Details   </button>
       </div>
+
+
+      <!--Modal Open  Click Details Button -->
+
+
+      <div class="modal fade" id="modalButton${product.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">${product.title}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          <img class="product-image card-img-top my-3 mx-auto d-block" src=${image}></img>
+            <p> <b>Details ::</b> ${product.description}</p>
+            <p><b>Category:</b> ${product.category}</p>
+            <p><b>Rating: **</b> ${product.rating.rate}(${product.rating.count})</p>
+            <h4><b>Price:</b> <span class="fs-2">$ ${product.price}</span></h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="addToCart(${product.id},${product.price})">Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      
  `;
 
     document.getElementById("all-products").appendChild(div);
-    // console.log(product);
   }
 };
 
@@ -269,7 +296,7 @@ const addToCart = (id, price) => {
 
 
 
-//Get  Input Value  
+//Get  Input Value   
 
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText;
@@ -292,6 +319,7 @@ const updatePrice = (id, value) => {
 
 
 // set innerText function
+
 const setInnerText = (id, value) => {
   document.getElementById(id).innerText = parseFloat(value).toFixed(2);
 };
@@ -314,12 +342,13 @@ const updateTaxAndCharge = () => {
     setInnerText("delivery-charge", 60);
     setInnerText("total-tax", priceConverted * 0.4);
   }
+
 };
 
 
 
 
-//grandTotal update function
+//grand Total update function
 
 const updateTotal = () => {
   const grandTotal =
@@ -327,4 +356,6 @@ const updateTotal = () => {
     getInputValue("total-tax");
   document.getElementById("total").innerText = parseFloat(grandTotal).toFixed(2);
 };
+
+updateTotal();
 loadProducts();
